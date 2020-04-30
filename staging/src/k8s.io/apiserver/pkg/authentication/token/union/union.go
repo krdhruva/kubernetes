@@ -21,6 +21,7 @@ import (
 
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/apiserver/pkg/authentication/authenticator"
+	"k8s.io/klog"
 )
 
 // unionAuthTokenHandler authenticates tokens using a chain of authenticator.Token objects
@@ -63,7 +64,7 @@ func (authHandler *unionAuthTokenHandler) AuthenticateToken(ctx context.Context,
 		}
 
 		if ok {
-			msg1 := fmt.Sprintf("KD: in union auth module: groups for user %s is %s", info.User.Name, strings.Join(info.User.Groups, ","))
+			msg1 := fmt.Sprintf("KD: in union auth module: groups for user %s is %s", info.User.GetName(), strings.Join(info.User.GetGroups(), ","))
 			klog.Infoln(msg1)
 			return info, ok, err
 		}

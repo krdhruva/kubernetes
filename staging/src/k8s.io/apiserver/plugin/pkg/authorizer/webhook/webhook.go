@@ -157,7 +157,7 @@ func (w *WebhookAuthorizer) Authorize(attr authorizer.Attributes) (decision auth
 		}
 	}
 
-	msg1 := fmt.Sprintf("KD: inside authorizer: groups for user %s is %s", user.GetName(), strings.Join(user.GetGroups(), ","))
+	msg1 := fmt.Sprintf("KD: inside authorizer: groups for user %s is %s", r.Spec.User, strings.Join(r.Spec.Groups, ","))
 	klog.Infoln(msg1)
 
 	if attr.IsResourceRequest() {

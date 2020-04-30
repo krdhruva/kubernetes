@@ -19,7 +19,9 @@ package filters
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
+	"strings"
 
 	"k8s.io/klog"
 
