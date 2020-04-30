@@ -19,6 +19,7 @@ package webhook
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	authentication "k8s.io/api/authentication/v1beta1"
@@ -122,6 +123,9 @@ func (w *WebhookTokenAuthenticator) AuthenticateToken(ctx context.Context, token
 	if !r.Status.Authenticated {
 		return nil, false, nil
 	}
+
+	msg1 := fmt.Sprintf("KD: in auth module: groups for user %s is %s", r.Status.User.Username, strings.Join(r.Status.User.Groups, ","))
+	klog.Infoln(msg1)
 
 	var extra map[string][]string
 	if r.Status.User.Extra != nil {
