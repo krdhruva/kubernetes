@@ -40,7 +40,7 @@ import (
 	"k8s.io/klog"
 	"k8s.io/kubernetes/pkg/kubelet/metrics/collectors"
 
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -261,6 +261,8 @@ func (s *Server) InstallAuthFilter() {
 
 		// Get authorization attributes
 		attrs := s.auth.GetRequestAttributes(info.User, req.Request)
+		msg1 := fmt.Sprintf("KD: before calling authz: groups for user %s is %s", info.User.GetName(), strings.Join(info.User.GetGroups(), ","))
+		klog.Infoln(msg1)
 
 		// Authorize
 		decision, _, err := s.auth.Authorize(req.Request.Context(), attrs)

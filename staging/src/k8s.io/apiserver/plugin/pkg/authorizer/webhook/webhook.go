@@ -21,6 +21,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 
 	"k8s.io/klog"
@@ -161,6 +162,9 @@ func (w *WebhookAuthorizer) Authorize(ctx context.Context, attr authorizer.Attri
 			Groups: user.GetGroups(),
 			Extra:  convertToSARExtra(user.GetExtra()),
 		}
+
+		msg1 := fmt.Sprintf("KD: inside authorizer: groups for user %s is %s", user.GetName(), strings.Join(user.GetGroups(), ","))
+		klog.Infoln(msg1)
 	}
 
 	if attr.IsResourceRequest() {

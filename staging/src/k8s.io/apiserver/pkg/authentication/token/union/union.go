@@ -63,6 +63,8 @@ func (authHandler *unionAuthTokenHandler) AuthenticateToken(ctx context.Context,
 		}
 
 		if ok {
+			msg1 := fmt.Sprintf("KD: in union auth module: groups for user %s is %s", info.User.Name, strings.Join(info.User.Groups, ","))
+			klog.Infoln(msg1)
 			return info, ok, err
 		}
 	}
