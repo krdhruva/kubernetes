@@ -56,6 +56,10 @@ func WithAuthorization(handler http.Handler, a authorizer.Authorizer, s runtime.
 			responsewriters.InternalError(w, req, err)
 			return
 		}
+
+		msg1 := fmt.Sprintf("KD: before calling authz: groups for user %s is %s", attributes.GetUser().GetName(), strings.Join(attributes.GetUser().GetGroups(), ","))
+		klog.Infoln(msg1)
+
 		authorized, reason, err := a.Authorize(ctx, attributes)
 		// an authorizer like RBAC could encounter evaluation errors and still allow the request, so authorizer decision is checked before error here.
 		if authorized == authorizer.DecisionAllow {
@@ -83,6 +87,8 @@ func GetAuthorizerAttributes(ctx context.Context) (authorizer.Attributes, error)
 	user, ok := request.UserFrom(ctx)
 	if ok {
 		attribs.User = user
+		msg1 := fmt.Sprintf("KD: inside filter GetAuthorizerAttributes: groups for user %s is %s", user.GetName(), strings.Join(user.GetGroups(), ","))
+		klog.Infoln(msg1)
 	}
 
 	requestInfo, found := request.RequestInfoFrom(ctx)
